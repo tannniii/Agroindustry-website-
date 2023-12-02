@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
-
+from PIL import Image
 
 #Load 
 def load_data():
@@ -16,9 +16,9 @@ def descriptive_analysis(data):
 def plot_distribution(data, column):
     plt.figure(figsize=(10,6))
     sns.histplot(data[column],kde=True)
-    plt.title(f"Distribusi {column}")
+    plt.title(f"Distribution {column}")
     plt.xlabel(column)
-    plt.ylabel('Frekuensi')
+    plt.ylabel('Frequency')
     
     mean_val = data[column].mean()
     plt.axvline(mean_val, color='r', linestyle='dashed',linewidth=2)
@@ -26,77 +26,53 @@ def plot_distribution(data, column):
     st.pyplot(plt)       
     
 data = load_data()
-st.title("Analyze of Agricultural Data")
+st.title("🌾 Analyze of Smart Farming Data")
 
 #Menu
-st.sidebar.title('Navigasi')
-page = st.sidebar.radio("Menu Navigation",
-                        [':house: Title', ':memo: Data Explanation', ':bar_chart: Data Picture',':chart_with_upwards_trend: Data Visualization'])
+st.sidebar.title(' 🔍 Navigation')
+page = st.sidebar.radio("Navigation Menu",
+                        [':house: Title', ':memo: Data Explanation', ':bar_chart: Data Image',':chart_with_upwards_trend: Data Visualization'])
 
 
-if page == ':house: Tittle':
-    st.header('Welcome to the Agricultural Data Analysis Web :bar_chart:')
-    st.write('This application provides analysis of agricultural conditions.')
 
+if page == ':house: Title':
+    st.image('gambargif.gif',use_column_width=True)
+    st.header('Welcome to Smart Farming Web Data Analysis:bar_chart:')
+    st.write('This Website Give Analysis About Agricultural Condition.')
+    st.write('The dataset contains information about the growth conditions of various crops, including measurements of Nitrogen (N), Phosphorus (P), and Potassium (K) levels in the soil, as well as environmental factors such as temperature, humidity, pH level, and rainfall. The "label" column indicates the type of crop being grown. This data can be used to analyze the optimal growing conditions for different crops, monitor farming practices, and make informed decisions to improve crop yield and quality. It provides valuable insights for farmers and agricultural researchers to optimize farming techniques and enhance agricultural productivity.')
+    st.write('The motivational points of the data include: 1. Empowering farmers to optimize farming techniques and enhance agricultural productivity. 2. Providing valuable insights for making informed decisions to improve crop yield and quality.    3. Enabling the agricultural community to adapt and innovate in order to achieve sustainable and efficient farming practices.')
+    st.write('The challenge of the data lies in leveraging the diverse set of factors and measurements to identify the optimal growth conditions for different crops. This involves analyzing the complex interplay between soil nutrients, environmental variables, and crop types to develop effective farming strategies. Additionally, ensuring the accuracy and reliability of the data is crucial for making informed decisions and recommendations. The challenge also includes the need to translate the data into actionable insights that can be practically applied by farmers to improve crop yield and quality.')
 elif page ==':memo: Data Explanation':
     st.header('Data Explanation')
     st.write("""
-    This data contains information regarding agricultural conditions which include:
+    This data Contains information about Agricultural condition, including :
     - Nitrogen (N)
-    - Phosphorus (P)
-    - Potassium (K)
+    - Phospor (P)
+    - Pottasium (K)
     - Temperature
     - Humidity
-    - pH
+    - Potential of Hydrogen (pH)
     - Rainfall
-    - Plant Labels
-    This data can be used to analyze the optimal growing conditions for different crops, monitor farming practices, and make informed decisions to improve crop yield and quality. It provides valuable insights for farmers and agricultural researchers to optimize farming techniques and enhance agricultural productivity.
+    - Crops Labell
     
-    The following is a sample of raw data used on this website:
+    This is Raw Data Sample Used in website :
     """)
     st.dataframe(data) 
 
-elif page ==':bar_chart: Data Picture':
-    st.header('Data Picture')
-    st.write('The following is a descriptive analysis of datasetL:')
+elif page ==':bar_chart: Data Image':
+    st.header('Data Description')
+    st.write('This is Descriptive Analysis from dataset:')
     st.dataframe(descriptive_analysis(data))
     
 
 elif page ==':chart_with_upwards_trend: Data Visualization':
     st.header('Data Visualization')
-    column = st.selectbox('Select Columns For Visualization', data.columns)
-    plot_distribution(data,column)
+    columns_to_visualize = data.columns.drop('label')
+    # Pilihan kolom untuk visualisasi tanpa 'Row Labels'
+    column = st.selectbox('Choose Clumn for Visualisation', columns_to_visualize)
+    plot_distribution(data, column)
     
     st.write(f"""
-    The graph above shows the distribution of column values '{column}'. The red dotted line shows the average value.
-    Hal ini dapat membantu dalam memahami sebaran data dan mengidentifikasi nilai yang umum atau tidak biasa.
+    Graphic above shows distribution Column Value'{column}'. Red dashed line showed average value.
+    it cann help to understand distribution data and to Identify common or unusual value.
     """)
-    
-    
-    
-    st.write('Plant Label Distribution:')
-    plt.figure(figsize=(10,6))
-    ax = sns.countplot(data=data, x='label')
-    plt.xticks(rotation=45)
-    plt.title('Plant Label Distribution')
-    plt.xlabel('Label Distribution')
-    plt.ylabel('Sum')
-    
-    st.pyplot(plt)
-    
-    
-
-    
-    
-    
-
-
-
-
-            
-        
-
-
-
-
-
